@@ -1,27 +1,22 @@
 #!/bin/bash
 
-# Mettre à jour la liste des paquets et installer nala
-sudo apt update
-sudo apt install -y nala
+# Mise à jour des paquets et installation de Nala
+echo "Mise à jour des paquets et installation de Nala..."
+sudo apt update && sudo apt install -y nala
 
-# Utiliser nala pour installer git, ansible et visual studio code
-sudo nala install -y git ansible
+# Installation de Git
+echo "Installation de Git..."
+sudo nala install -y git
 
-# Ajouter le dépôt de Visual Studio Code et installer le paquet
+# Installation de Visual Studio Code
+echo "Installation de Visual Studio Code..."
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
 sudo install -o root -g root -m 644 packages.microsoft.gpg /usr/share/keyrings/
 sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-rm -f packages.microsoft.gpg
-
-sudo nala update
+sudo apt update
 sudo nala install -y code
 
-# Fonction pour vérifier si une extension est installée
-is_extension_installed() {
-    code --list-extensions | grep -q "$1"
-}
-
-# Liste des extensions à installer
+# Installation des extensions Visual Studio Code
 extensions=(
     "ms-python.python"
     "aaron-bond.better-comments"
@@ -39,28 +34,37 @@ extensions=(
     "emmanuelbeziat.vscode-great-icons"
     "redhat.vscode-yaml"
 )
-
-# Installer les extensions si elles ne sont pas déjà installées
 for extension in "${extensions[@]}"; do
-    if is_extension_installed "$extension"; then
-        echo "L'extension $extension est déjà installée."
-    else
-        echo "Installation de l'extension $extension..."
-        code --install-extension "$extension"
+    if ! code --list-extensions | grep -q $extension; then
+        code --install-extension $extension
     fi
 done
 
-echo "Installation terminée avec succès."
+# Installation et configuration d'Ansible
+echo "Installation et configuration d'Ansible..."
+sudo apt update
+sudo apt install -y software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo nala install -y ansible
 
-# Mise en place de la configuration de Git
-git config --global user.name "Mounik"
-git config --global user.email "mounicou@gmail.com"
+# Configuration de Git
+echo "Configuration de Git..."
+git config --global user.name "Votre Nom"
+git config --global user.email "votre.email@example.com"
 
-# Cloner le dépôt de configuration
+# Clonage et installation du thème Dracula pour le terminal GNOME
+echo "Clonage et installation du thème Dracula pour le terminal GNOME..."
 git clone https://github.com/dracula/gnome-terminal
-cd gnome-terminal && ./install.sh
+cd gnome-terminal
+./install.sh
+cd ..
+rm -rf gnome-terminal
 
-# Supprimer le dossier gnome-terminal
-cd .. && rm -rf gnome-terminal
+# Installation de Docker
+echo "Installation de Docker..."
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+sudo usermod -aG docker $USER
+newgrp docker
 
-echo "Configuration terminée avec succès."
+echo "Installation terminée. Veuillez redémarrer votre terminal ou votre machine pour appliquer les changements."
