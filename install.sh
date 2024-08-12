@@ -42,8 +42,7 @@ done
 
 # Installation et configuration d'Ansible
 echo "Installation et configuration d'Ansible..."
-sudo apt update
-sudo apt install -y software-properties-common
+sudo nala install -y software-properties-common
 sudo add-apt-repository --yes --update ppa:ansible/ansible
 sudo nala install -y ansible
 
@@ -67,4 +66,4 @@ sh get-docker.sh
 sudo usermod -aG docker $USER
 newgrp docker
 
-echo "Installation terminée. Veuillez redémarrer votre terminal ou votre machine pour appliquer les changements."
+echo "Installation terminée. Veuillez redémarrer votre ordinateur pour appliquer les changements."
