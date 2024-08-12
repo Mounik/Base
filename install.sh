@@ -51,3 +51,16 @@ for extension in "${extensions[@]}"; do
 done
 
 echo "Installation terminée avec succès."
+
+# Mise en place de la configuration de Git
+git config --global user.name "Mounik"
+git config --global user.email "mounicou@gmail.com"
+
+# Cloner le dépôt de configuration
+git clone https://github.com/dracula/gnome-terminal
+cd gnome-terminal && ./install.sh
+
+# Supprimer le dossier gnome-terminal
+cd .. && rm -rf gnome-terminal
+
+echo "Configuration terminée avec succès."
