@@ -20,7 +20,7 @@ Ce script `install.sh` automatise l'installation et la configuration de plusieur
 
 ## Utilisation
 
-1. Clonez ce dépôt ou téléchargez le fichier `install.sh`.
+1. Clonez ce dépôt ou téléchargez le fichier `install.sh` et modifier la partie Configuration de git.
 2. Rendez le script exécutable :
     ```sh
     chmod +x install.sh
